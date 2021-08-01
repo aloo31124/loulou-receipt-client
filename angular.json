@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "loulou-receipt-client"
+    }
+  },
+  "defaultProject": "loulou-receipt-client",
+  "cli": {
+    "analytics": "ba9a975c-193e-42fe-a59d-484ad98ffdc0"
+  }
 }
