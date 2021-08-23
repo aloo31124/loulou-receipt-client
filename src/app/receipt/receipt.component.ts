@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Receipt } from '../model/receipt.model'
 
 @Component({
   selector: 'app-receipt',
@@ -14,23 +15,29 @@ export class ReceiptComponent implements OnInit {
   public barChartType = 'bar';
   public  barChartLegend = true;
 
-  public  barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  public barChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 60], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-  ];
+  public  barChartLabels_receipt_date = [];
+  public barChartData_receipt_price = [];
 
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
-    this.getReceiptList();
+    this.showChart();
   }
 
-  getReceiptList(){
-    let url = 'http://127.0.0.1:8000/api/receipt';
-    this.http.get<any>(url).subscribe(res=>{
-      console.log(res);
-    });
+  showChart(){    
+    let url = "https://loulou-receipt-server.herokuapp.com/api/receipt";
+    
+    this.http.get<Receipt[]>(url)
+      .subscribe(res =>{
+        let receipt_price =[];
+        res.forEach((receipt_item) =>{
+          this.barChartLabels_receipt_date.push(receipt_item.date);   
+          receipt_price.push(receipt_item.price);  
+        })
+        this.barChartData_receipt_price = [
+          {data: receipt_price, label: '每日載具花費'}
+        ];
+      });
   }
 
 }
